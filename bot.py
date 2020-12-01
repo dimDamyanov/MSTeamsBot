@@ -8,6 +8,7 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from selenium.common import exceptions
+from discord_webhook import DiscordWebhook
 
 opt = Options()
 opt.add_argument("--disable-infobars")
@@ -24,6 +25,7 @@ opt.add_experimental_option("prefs", {
 
 driver = webdriver.Chrome(options=opt, service_log_path='NUL')
 url = 'https://teams.microsoft.com/'
+web_hook_url = 'https://discord.com/api/webhooks/783083064279433256/2pPEwQOdCJkwYP3DNGLDUn70nrZzYV-J5wDFD6B3dott3_8ttyoo99QnP0GLmAVRytPr'
 
 
 def start_browser():
@@ -93,6 +95,8 @@ def join_class(class_name, start_time, end_time):
         join_now_button = driver.find_element_by_xpath('/html/body/div[1]/div[2]/div[2]/div[1]/div/calling-pre-join-screen/div/div/div[2]/div[1]/div[2]/div/div/section/div[1]/div/div/button')
         join_now_button.click()
         print(f'Joining class {class_name} at {datetime.now()}, leaving at {end_time}')
+        web_hook = DiscordWebhook(web_hook_url, content=f'Joining class {class_name} at {datetime.now().strftime("%b %d %Y %H:%M:%S")}, leaving at {end_time}')
+        web_hook.execute()
         schedule.every().day.at(end_time).do(leave_class)
     else:
         print('No class found!')
@@ -145,4 +149,4 @@ start_browser()
 while True:
     schedule.run_pending()
 
-# TODO: Discord 
+# TODO: Discord
