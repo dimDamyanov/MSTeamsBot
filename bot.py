@@ -70,21 +70,21 @@ def join_class(class_name, start_time, end_time):
         if team_name in team.get_attribute('innerHTML'):
             team.click()
             break
-    time.sleep(5)
+    time.sleep(2)
     class_start = datetime.combine(datetime.today().date(), datetime.strptime(start_time, '%H:%M').time())
     f = False
     while datetime.now() - class_start < timedelta(minutes=15):
         try:
             # TODO: Testing with no class
-            time.sleep(5)
             join_button = driver.find_element_by_class_name('ts-calling-join-button')
             join_button.click()
             f = True
             break
-        except exceptions.NoSuchElementException:
+        except exceptions:
             driver.refresh()
+            time.sleep(5)
     if f:
-        time.sleep(4)
+        time.sleep(2)
         webcam_button = driver.find_element_by_xpath('/html/body/div[1]/div[2]/div[2]/div[1]/div/calling-pre-join-screen/div/div/div[2]/div[1]/div[2]/div/div/section/div[2]/toggle-button[1]/div/button/span[1]')
         if webcam_button.get_attribute('title') == 'Turn camera off':
             webcam_button.click()
@@ -94,16 +94,24 @@ def join_class(class_name, start_time, end_time):
             mic_button.click()
         join_now_button = driver.find_element_by_xpath('/html/body/div[1]/div[2]/div[2]/div[1]/div/calling-pre-join-screen/div/div/div[2]/div[1]/div[2]/div/div/section/div[1]/div/div/button')
         join_now_button.click()
-        print(f'Joining class {class_name} at {datetime.now()}, leaving at {end_time}')
-        web_hook = DiscordWebhook(web_hook_url, content=f'Joining class {class_name} at {datetime.now().strftime("%b %d %Y %H:%M:%S")}, leaving at {end_time}')
+        message = f'Joining class {class_name} at {datetime.now().strftime("%d/%b/%Y %H:%M:%S")}, leaving at {end_time}'
+        print(message)
+        web_hook = DiscordWebhook(web_hook_url, content=message)
         web_hook.execute()
-        schedule.every().day.at(end_time).do(leave_class)
+        schedule.every().day.at(end_time).do(leave_class, class_name)
     else:
         print('No class found!')
+        web_hook = DiscordWebhook(web_hook_url, content='No class found!')
+        web_hook.execute()
+        teams_button = driver.find_element_by_xpath('/html/body/div[1]/div[2]/div[1]/app-bar/nav/ul/li[2]/button')
+        teams_button.click()
 
 
-def leave_class():
-    print('Leaving...')
+def leave_class(class_name):
+    message = f'Leaving class {class_name} at {datetime.now().strftime("%d/%b/%Y %H:%M:%S")}'
+    print(message)
+    web_hook = DiscordWebhook(web_hook_url, content=message)
+    web_hook.execute()
     teams_button = driver.find_element_by_xpath('/html/body/div[1]/div[2]/div[1]/app-bar/nav/ul/li[2]/button')
     teams_button.click()
     hangup_button = WebDriverWait(driver, 100).until(EC.visibility_of_element_located((By.ID, 'hangup-button')))
@@ -148,5 +156,3 @@ schedule_classes()
 start_browser()
 while True:
     schedule.run_pending()
-
-# TODO: Discord
