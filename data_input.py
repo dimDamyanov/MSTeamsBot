@@ -26,7 +26,18 @@ def add_timetable():
                 timetable = json.load(in_file)
             print('Input new events in the format: {day_of_week} {class_name} {start_time} {end_time}')
             print('e.g. Monday Math 12:40 14:05')
+            print('When all events are added type (end).')
             print('\nWARNING: Input is CASE SENSITIVE!')
+            line = input()
+            while line.casefold() != 'end':
+                dow, class_name, t_s, t_e = line.split()
+                print(f'Added class {class_name} on {dow} at {t_s} to {t_e}')
+                timetable.append({'day': dow,
+                                  'class': class_name,
+                                  't_s': t_s,
+                                  't_e': t_e})
+
+
     pass
 
 

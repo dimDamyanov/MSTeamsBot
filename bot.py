@@ -7,7 +7,6 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
-from selenium.common import exceptions
 from discord_webhook import DiscordWebhook
 
 opt = Options()
@@ -80,19 +79,20 @@ def join_class(class_name, start_time, end_time):
             join_button.click()
             f = True
             break
-        except exceptions:
+        except Exception as e:
+            print(f'Exception: {e.__class__}')
             driver.refresh()
             time.sleep(5)
     if f:
         time.sleep(2)
-        webcam_button = driver.find_element_by_xpath('/html/body/div[1]/div[2]/div[2]/div[1]/div/calling-pre-join-screen/div/div/div[2]/div[1]/div[2]/div/div/section/div[2]/toggle-button[1]/div/button/span[1]')
+        webcam_button = driver.find_element_by_xpath('//*[@id="page-content-wrapper"]/div[1]/div/calling-pre-join-screen/div/div/div[2]/div[1]/div[2]/div/div/section/div[2]/toggle-button[1]/div/button/span[1]')
         if webcam_button.get_attribute('title') == 'Turn camera off':
             webcam_button.click()
         time.sleep(1)
-        mic_button = driver.find_element_by_xpath('/html/body/div[1]/div[2]/div[2]/div[1]/div/calling-pre-join-screen/div/div/div[2]/div[1]/div[2]/div/div/section/div[2]/toggle-button[2]/div/button/span[1]')
+        mic_button = driver.find_element_by_xpath('//*[@id="preJoinAudioButton"]/div/button/span[1]')
         if mic_button.get_attribute('title') == 'Mute microphone':
             mic_button.click()
-        join_now_button = driver.find_element_by_xpath('/html/body/div[1]/div[2]/div[2]/div[1]/div/calling-pre-join-screen/div/div/div[2]/div[1]/div[2]/div/div/section/div[1]/div/div/button')
+        join_now_button = driver.find_element_by_xpath('//*[@id="page-content-wrapper"]/div[1]/div/calling-pre-join-screen/div/div/div[2]/div[1]/div[2]/div/div/section/div[1]/div/div/button')
         join_now_button.click()
         message = f'Joining class {class_name} at {datetime.now().strftime("%d/%b/%Y %H:%M:%S")}, leaving at {end_time}'
         print(message)
@@ -101,21 +101,21 @@ def join_class(class_name, start_time, end_time):
         schedule.every().day.at(end_time).do(leave_class, class_name)
     else:
         print('No class found!')
-        web_hook = DiscordWebhook(web_hook_url, content='No class found!')
+        web_hook = DiscordWebhook(web_hook_url, content=f'No meeting started for {class_name}.')
         web_hook.execute()
         teams_button = driver.find_element_by_xpath('/html/body/div[1]/div[2]/div[1]/app-bar/nav/ul/li[2]/button')
         teams_button.click()
 
 
 def leave_class(class_name):
-    message = f'Leaving class {class_name} at {datetime.now().strftime("%d/%b/%Y %H:%M:%S")}'
-    print(message)
-    web_hook = DiscordWebhook(web_hook_url, content=message)
-    web_hook.execute()
     teams_button = driver.find_element_by_xpath('/html/body/div[1]/div[2]/div[1]/app-bar/nav/ul/li[2]/button')
     teams_button.click()
     hangup_button = WebDriverWait(driver, 100).until(EC.visibility_of_element_located((By.ID, 'hangup-button')))
     hangup_button.click()
+    message = f'Leaving class {class_name} at {datetime.now().strftime("%d/%b/%Y %H:%M:%S")}'
+    print(message)
+    web_hook = DiscordWebhook(web_hook_url, content=message)
+    web_hook.execute()
     teams_button = driver.find_element_by_xpath('/html/body/div[1]/div[2]/div[1]/app-bar/nav/ul/li[2]/button')
     teams_button.click()
     return schedule.CancelJob
