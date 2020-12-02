@@ -1,6 +1,7 @@
 import json
 import schedule
 import time
+import winsound
 from datetime import datetime, timedelta
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
@@ -8,6 +9,7 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from discord_webhook import DiscordWebhook
+
 
 opt = Options()
 opt.add_argument("--disable-infobars")
@@ -94,7 +96,7 @@ def join_class(class_name, start_time, end_time):
             mic_button.click()
         join_now_button = driver.find_element_by_xpath('//*[@id="page-content-wrapper"]/div[1]/div/calling-pre-join-screen/div/div/div[2]/div[1]/div[2]/div/div/section/div[1]/div/div/button')
         join_now_button.click()
-        message = f'Joining class {class_name} at {datetime.now().strftime("%d/%b/%Y %H:%M:%S")}, leaving at {end_time}'
+        message = f'Joining class {class_name} on {datetime.now().strftime("%d/%b/%Y at %H:%M:%S")}, leaving at {end_time}'
         print(message)
         web_hook = DiscordWebhook(web_hook_url, content=message)
         web_hook.execute()
@@ -112,7 +114,7 @@ def leave_class(class_name):
     teams_button.click()
     hangup_button = WebDriverWait(driver, 100).until(EC.visibility_of_element_located((By.ID, 'hangup-button')))
     hangup_button.click()
-    message = f'Leaving class {class_name} at {datetime.now().strftime("%d/%b/%Y %H:%M:%S")}'
+    message = f'Leaving class {class_name} on {datetime.now().strftime("%d/%b/%Y at %H:%M:%S")}'
     print(message)
     web_hook = DiscordWebhook(web_hook_url, content=message)
     web_hook.execute()
