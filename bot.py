@@ -9,7 +9,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from discord_webhook import DiscordWebhook
 
-# TODO: Add sound notification when joining  
+# TODO: Add sound notification when joining
 
 opt = Options()
 opt.add_argument("--disable-infobars")
@@ -83,7 +83,7 @@ def join_class(class_name, start_time, end_time):
         except Exception as e:
             print(f'[{datetime.now().strftime("%H:%M:%S")}] Exception: {e.__class__}')
             driver.refresh()
-            time.sleep(5)
+            time.sleep(10)
     if f:
         time.sleep(2)
         webcam_button = driver.find_element_by_xpath('//*[@id="page-content-wrapper"]/div[1]/div/calling-pre-join-screen/div/div/div[2]/div[1]/div[2]/div/div/section/div[2]/toggle-button[1]/div/button/span[1]')
@@ -133,22 +133,22 @@ def schedule_classes():
         t_e = lesson['t_e']
         if day.lower() == 'monday':
             schedule.every().monday.at(t_s).do(join_class, name, t_s, t_e)
-            print(f'Class {name} scheduled on {day} at {t_s} to {t_e}')
+            print(f'[{datetime.now().strftime("%H:%M:%S")}] Class {name} scheduled on {day} at {t_s} to {t_e}')
         elif day.lower() == 'tuesday':
             schedule.every().tuesday.at(t_s).do(join_class, name, t_s, t_e)
-            print(f'Class {name} scheduled on {day} at {t_s} to {t_e}')
+            print(f'[{datetime.now().strftime("%H:%M:%S")}] Class {name} scheduled on {day} at {t_s} to {t_e}')
         elif day.lower() == 'wednesday':
             schedule.every().wednesday.at(t_s).do(join_class, name, t_s, t_e)
-            print(f'Class {name} scheduled on {day} at {t_s} to {t_e}')
+            print(f'[{datetime.now().strftime("%H:%M:%S")}] Class {name} scheduled on {day} at {t_s} to {t_e}')
         elif day.lower() == 'thursday':
             schedule.every().thursday.at(t_s).do(join_class, name, t_s, t_e)
-            print(f'Class {name} scheduled on {day} at {t_s} to {t_e}')
+            print(f'[{datetime.now().strftime("%H:%M:%S")}] Class {name} scheduled on {day} at {t_s} to {t_e}')
         elif day.lower() == 'friday':
             schedule.every().friday.at(t_s).do(join_class, name, t_s, t_e)
-            print(f'Class {name} scheduled on {day} at {t_s} to {t_e}')
+            print(f'[{datetime.now().strftime("%H:%M:%S")}] Class {name} scheduled on {day} at {t_s} to {t_e}')
         elif day.lower() == 'saturday':
             schedule.every().saturday.at(t_s).do(join_class, name, t_s, t_e)
-            print(f'Class {name} scheduled on {day} at {t_s} to {t_e}')
+            print(f'[{datetime.now().strftime("%H:%M:%S")}] Class {name} scheduled on {day} at {t_s} to {t_e}')
         else:
             pass
 
