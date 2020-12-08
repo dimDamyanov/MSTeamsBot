@@ -65,6 +65,8 @@ def join_class(class_name, start_time, end_time):
     global driver
     with open('team_names.json') as json_file:
         data = json.load(json_file)
+    if driver.current_url != 'https://teams.microsoft.com/_#/school//?ctx=teamsGrid':
+        driver.get('https://teams.microsoft.com/_#/school//?ctx=teamsGrid')
     team_name = data[class_name]
     teams = driver.find_elements_by_class_name('team-card')
     for team in teams:
@@ -82,8 +84,7 @@ def join_class(class_name, start_time, end_time):
             break
         except Exception as e:
             print(f'[{datetime.now().strftime("%H:%M:%S")}] Exception: {e.__class__}')
-            driver.refresh()
-            time.sleep(10)
+            time.sleep(5)
     if f:
         time.sleep(2)
         webcam_button = driver.find_element_by_xpath('//*[@id="page-content-wrapper"]/div[1]/div/calling-pre-join-screen/div/div/div[2]/div[1]/div[2]/div/div/section/div[2]/toggle-button[1]/div/button/span[1]')
@@ -157,3 +158,5 @@ schedule_classes()
 start_browser()
 while True:
     schedule.run_pending()
+
+# 87.0.4280.88 - chromedriver.exe version
