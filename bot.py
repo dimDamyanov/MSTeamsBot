@@ -156,5 +156,3 @@ schedule_classes()
 start_browser()
 while True:
     schedule.run_pending()
-
-# 87.0.4280.88 - chromedriver.exe version
