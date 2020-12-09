@@ -10,6 +10,7 @@ from selenium.webdriver.common.by import By
 from discord_webhook import DiscordWebhook
 
 # TODO: Add sound notification when joining
+weekdays = ('monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday')
 
 opt = Options()
 opt.add_argument("--disable-infobars")
@@ -83,7 +84,7 @@ def join_class(class_name, start_time, end_time):
             f = True
             break
         except Exception as e:
-            print(f'[{datetime.now().strftime("%H:%M:%S")}] Exception: {e.__class__}')
+            print(f'[{datetime.now().strftime("%d/%b/%Y %H:%M:%S")}] Exception: {e.__class__}')
             time.sleep(5)
     if f:
         time.sleep(2)
@@ -97,13 +98,14 @@ def join_class(class_name, start_time, end_time):
         join_now_button = driver.find_element_by_xpath('//*[@id="page-content-wrapper"]/div[1]/div/calling-pre-join-screen/div/div/div[2]/div[1]/div[2]/div/div/section/div[1]/div/div/button')
         join_now_button.click()
         message = f'Joining class {class_name} on {datetime.now().strftime("%d/%b/%Y at %H:%M:%S")}, leaving at {end_time}'
-        print(f'[{datetime.now().strftime("%H:%M:%S")}]', message)
+        print(f'[{datetime.now().strftime("%d/%b/%Y %H:%M:%S")}]', message)
         web_hook = DiscordWebhook(web_hook_url, content=message)
         web_hook.execute()
         schedule.every().day.at(end_time).do(leave_class, class_name)
     else:
-        print('No class found!')
-        web_hook = DiscordWebhook(web_hook_url, content=f'[{datetime.now().strftime("%H:%M:%S")}] No meeting started for {class_name}.')
+        message = f'No meeting started for {class_name}.'
+        print([{datetime.now().strftime("%d/%b/%Y %H:%M:%S")}], message)
+        web_hook = DiscordWebhook(web_hook_url, content=message)
         web_hook.execute()
         teams_button = driver.find_element_by_xpath('/html/body/div[1]/div[2]/div[1]/app-bar/nav/ul/li[2]/button')
         teams_button.click()
@@ -115,7 +117,7 @@ def leave_class(class_name):
     hangup_button = WebDriverWait(driver, 100).until(EC.visibility_of_element_located((By.ID, 'hangup-button')))
     hangup_button.click()
     message = f'Leaving class {class_name} on {datetime.now().strftime("%d/%b/%Y at %H:%M:%S")}'
-    print(f'[{datetime.now().strftime("%H:%M:%S")}] ', message)
+    print(f'[{datetime.now().strftime("%d/%b/%Y %H:%M:%S")}] ', message)
     web_hook = DiscordWebhook(web_hook_url, content=message)
     web_hook.execute()
     teams_button = driver.find_element_by_xpath('/html/body/div[1]/div[2]/div[1]/app-bar/nav/ul/li[2]/button')
@@ -132,24 +134,20 @@ def schedule_classes():
         name = lesson['class']
         t_s = lesson['t_s']
         t_e = lesson['t_e']
-        if day.lower() == 'monday':
-            schedule.every().monday.at(t_s).do(join_class, name, t_s, t_e)
-            print(f'[{datetime.now().strftime("%H:%M:%S")}] Class {name} scheduled on {day} at {t_s} to {t_e}')
-        elif day.lower() == 'tuesday':
-            schedule.every().tuesday.at(t_s).do(join_class, name, t_s, t_e)
-            print(f'[{datetime.now().strftime("%H:%M:%S")}] Class {name} scheduled on {day} at {t_s} to {t_e}')
-        elif day.lower() == 'wednesday':
-            schedule.every().wednesday.at(t_s).do(join_class, name, t_s, t_e)
-            print(f'[{datetime.now().strftime("%H:%M:%S")}] Class {name} scheduled on {day} at {t_s} to {t_e}')
-        elif day.lower() == 'thursday':
-            schedule.every().thursday.at(t_s).do(join_class, name, t_s, t_e)
-            print(f'[{datetime.now().strftime("%H:%M:%S")}] Class {name} scheduled on {day} at {t_s} to {t_e}')
-        elif day.lower() == 'friday':
-            schedule.every().friday.at(t_s).do(join_class, name, t_s, t_e)
-            print(f'[{datetime.now().strftime("%H:%M:%S")}] Class {name} scheduled on {day} at {t_s} to {t_e}')
-        elif day.lower() == 'saturday':
-            schedule.every().saturday.at(t_s).do(join_class, name, t_s, t_e)
-            print(f'[{datetime.now().strftime("%H:%M:%S")}] Class {name} scheduled on {day} at {t_s} to {t_e}')
+        if day.casefold() in weekdays:
+            if day.casefold() == 'monday':
+                schedule.every().monday.at(t_s).do(join_class, name, t_s, t_e)
+            elif day.casefold() == 'tuesday':
+                schedule.every().tuesday.at(t_s).do(join_class, name, t_s, t_e)
+            elif day.casefold() == 'wednesday':
+                schedule.every().wednesday.at(t_s).do(join_class, name, t_s, t_e)
+            elif day.casefold() == 'thursday':
+                schedule.every().thursday.at(t_s).do(join_class, name, t_s, t_e)
+            elif day.casefold() == 'friday':
+                schedule.every().friday.at(t_s).do(join_class, name, t_s, t_e)
+            elif day.casefold() == 'saturday':
+                schedule.every().saturday.at(t_s).do(join_class, name, t_s, t_e)
+            print(f'[{datetime.now().strftime("%d/%b/%Y %H:%M:%S")}] Class {name} scheduled on {day} at {t_s} to {t_e}')
         else:
             pass
 
