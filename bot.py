@@ -34,10 +34,10 @@ def start_browser():
     global driver
     driver.get(url)
     WebDriverWait(driver, 10000).until(EC.visibility_of_element_located((By.TAG_NAME, 'body')))
-    print(f'[{datetime.now().strftime("%H:%M:%S")}] SUCCESS: Browser started')
+    print(f'[{datetime.now().strftime("%d/%b/%Y %H:%M:%S")}] SUCCESS: Browser started')
     if 'login.microsoftonline.com' in driver.current_url:
         if login():
-            print(f'[{datetime.now().strftime("%H:%M:%S")}] SUCCESS: LOG IN')
+            print(f'[{datetime.now().strftime("%d/%b/%Y %H:%M:%S")}] SUCCESS: LOG IN')
 
 
 def login():
@@ -64,18 +64,19 @@ def login():
 
 def join_class(class_name, start_time, end_time):
     global driver
+    class_start = datetime.combine(datetime.today().date(), datetime.strptime(start_time, '%H:%M').time())
     with open('team_names.json') as json_file:
         data = json.load(json_file)
     if driver.current_url != 'https://teams.microsoft.com/_#/school//?ctx=teamsGrid':
         driver.get('https://teams.microsoft.com/_#/school//?ctx=teamsGrid')
     team_name = data[class_name]
-    teams = driver.find_elements_by_class_name('team-card')
-    for team in teams:
-        if team_name in team.get_attribute('innerHTML'):
-            team.click()
-            break
-    time.sleep(2)
-    class_start = datetime.combine(datetime.today().date(), datetime.strptime(start_time, '%H:%M').time())
+    while driver.current_url == 'https://teams.microsoft.com/_#/school//?ctx=teamsGrid':
+        teams = driver.find_elements_by_class_name('team-card')
+        for team in teams:
+            if team_name in team.get_attribute('innerHTML'):
+                team.click()
+                break
+        time.sleep(2)
     f = False
     while datetime.now() - class_start < timedelta(minutes=15):
         try:
@@ -84,7 +85,7 @@ def join_class(class_name, start_time, end_time):
             f = True
             break
         except Exception as e:
-            print(f'[{datetime.now().strftime("%d/%b/%Y %H:%M:%S")}] Exception: {e.__class__}')
+            # print(f'[{datetime.now().strftime("%d/%b/%Y %H:%M:%S")}] Exception: {e.__class__}')
             time.sleep(5)
     if f:
         time.sleep(2)
