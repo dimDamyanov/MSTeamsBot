@@ -1,128 +1,134 @@
 [
    {
-      "day":"Monday",
-      "class":"German",
-      "t_s":"14:20",
-      "t_e":"15:45"
+      "day": "Monday",
+      "class": "German",
+      "t_s": "14:20",
+      "t_e": "15:45"
    },
    {
-      "day":"Monday",
-      "class":"Art",
-      "t_s":"16:10",
-      "t_e":"16:50"
+      "day": "Monday",
+      "class": "Art",
+      "t_s": "16:10",
+      "t_e": "16:50"
    },
    {
-      "day":"Monday",
-      "class":"Math",
-      "t_s":"16:55",
-      "t_e":"17:35"
+      "day": "Monday",
+      "class": "Math",
+      "t_s": "16:55",
+      "t_e": "17:35"
    },
    {
-      "day":"Monday",
-      "class":"English",
-      "t_s":"17:45",
-      "t_e":"19:10"
+      "day": "Monday",
+      "class": "English",
+      "t_s": "17:45",
+      "t_e": "19:10"
    },
    {
-      "day":"Tuesday",
-      "class":"Physics",
-      "t_s":"12:40",
-      "t_e":"14:05"
+      "day": "Tuesday",
+      "class": "Physics",
+      "t_s": "12:40",
+      "t_e": "14:05"
    },
    {
-      "day":"Tuesday",
-      "class":"History",
-      "t_s":"14:20",
-      "t_e":"15:45"
+      "day": "Tuesday",
+      "class": "History",
+      "t_s": "14:20",
+      "t_e": "15:45"
    },
    {
-      "day":"Tuesday",
-      "class":"Math",
-      "t_s":"16:10",
-      "t_e":"17:35"
+      "day": "Tuesday",
+      "class": "Math",
+      "t_s": "16:10",
+      "t_e": "17:35"
    },
    {
-      "day":"Tuesday",
-      "class":"Geography",
-      "t_s":"17:45",
-      "t_e":"18:25"
+      "day": "Tuesday",
+      "class": "Geography",
+      "t_s": "17:45",
+      "t_e": "18:25"
    },
    {
-      "day":"Tuesday",
-      "class":"Literature",
-      "t_s":"18:30",
-      "t_e":"19:10"
+      "day": "Tuesday",
+      "class": "Literature",
+      "t_s": "18:30",
+      "t_e": "19:10"
    },
    {
-      "day":"Wednesday",
-      "class":"History",
-      "t_s":"12:40",
-      "t_e":"14:05"
+      "day": "Wednesday",
+      "class": "History",
+      "t_s": "12:40",
+      "t_e": "14:05"
    },
    {
-      "day":"Wednesday",
-      "class":"Math",
-      "t_s":"14:20",
-      "t_e":"15:45"
+      "day": "Wednesday",
+      "class": "Math",
+      "t_s": "14:20",
+      "t_e": "15:45"
    },
    {
-      "day":"Wednesday",
-      "class":"Geography",
-      "t_s":"16:10",
-      "t_e":"17:35"
+      "day": "Wednesday",
+      "class": "Geography",
+      "t_s": "16:10",
+      "t_e": "17:35"
    },
    {
-      "day":"Wednesday",
-      "class":"P.E.",
-      "t_s":"17:45",
-      "t_e":"19:10"
+      "day": "Wednesday",
+      "class": "P.E.",
+      "t_s": "17:45",
+      "t_e": "19:10"
    },
    {
-      "day":"Thursday",
-      "class":"Philosophy",
-      "t_s":"12:40",
-      "t_e":"14:05"
+      "day": "Thursday",
+      "class": "Philosophy",
+      "t_s": "12:40",
+      "t_e": "14:05"
    },
    {
-      "day":"Thursday",
-      "class":"Literature",
-      "t_s":"14:20",
-      "t_e":"15:45"
+      "day": "Thursday",
+      "class": "Literature",
+      "t_s": "14:20",
+      "t_e": "15:45"
    },
    {
-      "day":"Thursday",
-      "class":"Chemistry",
-      "t_s":"16:10",
-      "t_e":"17:35"
+      "day": "Thursday",
+      "class": "Chemistry",
+      "t_s": "16:10",
+      "t_e": "17:35"
    },
    {
-      "day":"Thursday",
-      "class":"Math",
-      "t_s":"17:45",
-      "t_e":"19:10"
+      "day": "Thursday",
+      "class": "Math",
+      "t_s": "17:45",
+      "t_e": "19:10"
    },
    {
-      "day":"Friday",
-      "class":"C.L.",
-      "t_s":"13:25",
-      "t_e":"14:05"
+      "day": "Friday",
+      "class": "C.L.",
+      "t_s": "13:25",
+      "t_e": "14:05"
    },
    {
-      "day":"Friday",
-      "class":"Informatics",
-      "t_s":"14:20",
-      "t_e":"15:45"
+      "day": "Friday",
+      "class": "Informatics",
+      "t_s": "14:20",
+      "t_e": "15:45"
    },
    {
-      "day":"Friday",
-      "class":"Math",
-      "t_s":"16:10",
-      "t_e":"17:35"
+      "day": "Friday",
+      "class": "Math",
+      "t_s": "16:10",
+      "t_e": "17:35"
    },
    {
-      "day":"Friday",
-      "class":"Biology",
-      "t_s":"17:45",
-      "t_e":"19:10"
+      "day": "Friday",
+      "class": "Biology",
+      "t_s": "17:45",
+      "t_e": "19:10"
+   },
+   {
+      "day": "Monday",
+      "class": "Test",
+      "t_s": "20:55",
+      "t_e": "21:10"
    }
 ]
