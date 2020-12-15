@@ -8,6 +8,7 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from discord_webhook import DiscordWebhook
+import winsound
 
 # TODO: Add sound notification when joining
 weekdays = ('monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday')
@@ -103,6 +104,7 @@ def join_class(class_name, start_time, end_time):
         web_hook = DiscordWebhook(web_hook_url, content=message)
         web_hook.execute()
         schedule.every().day.at(end_time).do(leave_class, class_name)
+        winsound.PlaySound('join_meeting.wav', winsound.SND_ASYNC)
     else:
         message = f'No meeting started for {class_name}.'
         print([{datetime.now().strftime("%d/%b/%Y %H:%M:%S")}], message)
@@ -118,11 +120,12 @@ def leave_class(class_name):
     hangup_button = WebDriverWait(driver, 100).until(EC.visibility_of_element_located((By.ID, 'hangup-button')))
     hangup_button.click()
     message = f'Leaving class {class_name} on {datetime.now().strftime("%d/%b/%Y at %H:%M:%S")}'
-    print(f'[{datetime.now().strftime("%d/%b/%Y %H:%M:%S")}] ', message)
+    print(f'[{datetime.now().strftime("%d/%b/%Y %H:%M:%S")}]', message)
     web_hook = DiscordWebhook(web_hook_url, content=message)
     web_hook.execute()
     teams_button = driver.find_element_by_xpath('/html/body/div[1]/div[2]/div[1]/app-bar/nav/ul/li[2]/button')
     teams_button.click()
+    winsound.PlaySound('leave_meeting.wav', winsound.SND_ASYNC)
     return schedule.CancelJob
 
 
